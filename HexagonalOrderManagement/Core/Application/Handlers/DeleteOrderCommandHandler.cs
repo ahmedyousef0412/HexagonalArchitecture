@@ -2,6 +2,7 @@
 using Core.Application.Commands;
 using Core.Application.Exceptions;
 using Core.Application.Ports;
+using System.Threading.Tasks;
 
 namespace Core.Application.Handlers;
 
@@ -16,7 +17,7 @@ public class DeleteOrderCommandHandler(IOrderRepository orderRepository)
         if (order is null)
             throw new NotFoundException($"Order with Id {command.OrderId} not found.");
 
-        await _orderRepository.DeleteAsync(order, cancellationToken);
+         _orderRepository.Delete(order, cancellationToken);
 
     }
 }

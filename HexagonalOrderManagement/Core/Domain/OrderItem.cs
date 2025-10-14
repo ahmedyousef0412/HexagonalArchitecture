@@ -5,10 +5,10 @@ namespace Core.Domain;
 
 public class OrderItem
 {
-    public int Id { get;  }
-    public string ProductName { get; }
-    public decimal Price { get; }
-    public int Quantity { get; }
+    public int Id { get; private set; }
+    public string ProductName { get; private set; }
+    public decimal Price { get; private set; }
+    public int Quantity { get; private set; }
 
     public OrderItem(string productName, decimal price, int quantity)
     {
