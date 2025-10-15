@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Core.Application.Handlers;
 
-public class DeleteOrderCommandHandler(IOrderRepository orderRepository)
+public class DeleteOrderCommandHandler(IOrderRepository orderRepository,IUintOfWork uintOfWork)
 {
     private readonly IOrderRepository _orderRepository = orderRepository;
+    private readonly IUintOfWork _uintOfWork = uintOfWork;
 
     public async Task HandleAsync(DeleteOrderCommand command, CancellationToken cancellationToken = default)
     {
@@ -18,6 +19,7 @@ public class DeleteOrderCommandHandler(IOrderRepository orderRepository)
             throw new NotFoundException($"Order with Id {command.OrderId} not found.");
 
          _orderRepository.Delete(order, cancellationToken);
+        await _uintOfWork.SaveChangesAsync(cancellationToken);
 
     }
 }

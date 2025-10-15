@@ -5,10 +5,10 @@ using Core.Domain;
 
 namespace Core.Application.Handlers;
 
-public class UpdateOrderCommandHandler(IOrderRepository orderRepository)
+public class UpdateOrderCommandHandler(IOrderRepository orderRepository,IUintOfWork uintOfWork)
 {
     private readonly IOrderRepository _orderRepository = orderRepository;
-
+    private readonly IUintOfWork _uintOfWork = uintOfWork;
 
     public async Task HandleAsync(UpdateOrderCommand command ,CancellationToken cancellationToken = default)
     {
@@ -25,5 +25,7 @@ public class UpdateOrderCommandHandler(IOrderRepository orderRepository)
 
 
         order.UpdateItems(orderItems);
+        _orderRepository.Update(order, cancellationToken);
+        //await _uintOfWork.SaveChangesAsync(cancellationToken); 
     }
 }
