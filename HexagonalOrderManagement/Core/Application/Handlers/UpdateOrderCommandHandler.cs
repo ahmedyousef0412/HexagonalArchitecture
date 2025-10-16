@@ -27,7 +27,7 @@ public class UpdateOrderCommandHandler(IOrderRepository orderRepository,IUintOfW
 
 
         order.UpdateItems(orderItems);
-        _orderRepository.Update(order, cancellationToken);
-        await _uintOfWork.SaveChangesAsync(cancellationToken); 
+       
+        await _uintOfWork.SaveChangesAsync(cancellationToken); //EF will generate an UPDATE statement automatically.
     }
 }
