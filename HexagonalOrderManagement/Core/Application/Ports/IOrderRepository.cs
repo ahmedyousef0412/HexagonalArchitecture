@@ -8,7 +8,8 @@ public interface IOrderRepository
     Task<IEnumerable<Order>> GetAllAsync(CancellationToken cancellationToken = default);
 
     Task<Order?> GetByIdAsync(int id ,CancellationToken cancellationToken = default);
-
+    Task<Order?> GetByIdAsNoTrackingAsync(int id ,CancellationToken cancellationToken = default);
+   
     Task AddAsync(Order? order, CancellationToken cancellationToken = default);
 
     void Update(Order? order, CancellationToken cancellationToken = default);

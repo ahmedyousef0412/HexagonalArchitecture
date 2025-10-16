@@ -12,7 +12,9 @@ public class UpdateOrderCommandHandler(IOrderRepository orderRepository,IUintOfW
 
     public async Task HandleAsync(UpdateOrderCommand command ,CancellationToken cancellationToken = default)
     {
-      var order = await _orderRepository.GetByIdAsync(command.OrderId, cancellationToken);
+
+        //Here EF Core will track the entity , so I don't need to call Update method explicitly.
+        var order = await _orderRepository.GetByIdAsync(command.OrderId, cancellationToken); 
 
 
         if (order is null)
@@ -26,6 +28,6 @@ public class UpdateOrderCommandHandler(IOrderRepository orderRepository,IUintOfW
 
         order.UpdateItems(orderItems);
         _orderRepository.Update(order, cancellationToken);
-        //await _uintOfWork.SaveChangesAsync(cancellationToken); 
+        await _uintOfWork.SaveChangesAsync(cancellationToken); 
     }
 }
