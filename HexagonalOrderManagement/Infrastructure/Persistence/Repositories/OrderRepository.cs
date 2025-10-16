@@ -23,9 +23,16 @@ public class OrderRepository : IOrderRepository
     public async Task<Order?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         return await _context.Orders.Include(o => o.Items)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+            .SingleOrDefaultAsync(o => o.Id == id, cancellationToken);
     }
+
+    public async Task<Order?> GetByIdAsNoTrackingAsync(int id, CancellationToken cancellationToken = default)
+    {
+        return await _context.Orders.Include(o => o.Items)
+            .AsNoTracking()
+            .SingleOrDefaultAsync(o => o.Id == id, cancellationToken);
+    }
+
     public async Task AddAsync(Order? order, CancellationToken cancellationToken = default)
     {
         await _context.Orders.AddAsync(order!, cancellationToken);

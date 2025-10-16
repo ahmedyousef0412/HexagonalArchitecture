@@ -1,5 +1,6 @@
 ﻿using Core.Application.DTOs;
 using Core.Application.Ports;
+using Core.Application.Queries;
 
 namespace Core.Application.Handlers;
 
@@ -8,7 +9,7 @@ public class GetOrdersQueryHandler(IOrderRepository orderRepository)
     private readonly IOrderRepository _orderRepository = orderRepository;
 
 
-    public async Task<IEnumerable<OrderDto>> HandleAsync(GetOrdersQueryHandler query, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<OrderDto>> HandleAsync(GetOrdersQuery query, CancellationToken cancellationToken = default)
     {
 
         var orders = await _orderRepository.GetAllAsync(cancellationToken);

@@ -1,4 +1,6 @@
+using Core.Application.Handlers;
 using Infrastructure.DependencyInjection;
+using WebApi.MiddleWares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,12 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddInfrastructureServices(builder.Configuration.GetConnectionString("DefaultConnection")!);
 
-
+// Register handlers
+builder.Services.AddScoped<GetOrdersQueryHandler>();
+builder.Services.AddScoped<GetOrderByIdQueryHandler>();
+builder.Services.AddScoped<CreateOrderCommandHandler>();
+builder.Services.AddScoped<UpdateOrderCommandHandler>();
+builder.Services.AddScoped<DeleteOrderCommandHandler>();
 
 var app = builder.Build();
 
@@ -24,6 +31,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 
